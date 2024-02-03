@@ -2,14 +2,11 @@
 var playerTotal = 0;
 var dealerTotal = 0;
 var gameOver = 0;
-var round = 0;
 
 window.onload=function(){ // wait for webpage to load; setup all button click events
-    hitButton = document.getElementById("hit");
-    startButton = document.getElementById("startB");
-    stayButton = document.getElementById("stay");
-    pVal = document.getElementById("pVal");
-    dVal = document.getElementById("dVal");
+    const hitButton = document.getElementById("hit");
+    const startButton = document.getElementById("startB");
+    const stayButton = document.getElementById("stay");
 
     document.getElementById("hit").style.display = "none";
     document.getElementById("stay").style.display = "none";
@@ -43,8 +40,8 @@ function start(){ // using deck.pop to delete last element of array when shuffle
     let dealerCard = deck.pop();
     blank = document.createElement("img");
 
-    blank.src = "../../../Images/card back red.png";
-    dealerImg.src = "../../../cards/" + dealerCard + ".png";
+    blank.src = "../views/Images/card back red.png";
+    dealerImg.src = "../views/cards/" + dealerCard + ".png";
 
     dealerTotal += getVal(dealerCard) + getVal(hidden);
 
@@ -54,14 +51,11 @@ function start(){ // using deck.pop to delete last element of array when shuffle
         let img = document.createElement("img");
         let card = deck.pop();
 
-        img.src = "../../../cards/" + card + ".png";
+        img.src = "../views/cards/" + card + ".png";
         playerTotal += getVal(card);
         document.getElementById("playerHand").append(img);
     }
-    
-    dVal.innerHTML = (dealerTotal - getVal(hidden)).toString();
-    pVal.innerHTML = playerTotal.toString();
-    
+
     if(playerTotal == 21){
         win();
         return;
@@ -69,48 +63,35 @@ function start(){ // using deck.pop to delete last element of array when shuffle
         lose();
     }
 
-    round = 1;
+    console.log(playerTotal);
 }
 
 function win(){
-    blank.src = "../../../cards/" + hidden + ".png";
-    stayButton.style.display = "none";
-    hitButton.style.display = "none";
+    blank.src = "../views/cards/" + hidden + ".png";
+    document.getElementById("stay").style.display = "none";
+    document.getElementById("hit").style.display = "none";
     document.getElementById("lost").innerHTML = "You Win!";
-    pVal.innerHTML = playerTotal.toString();
-    dVal.innerHTML = dealerTotal.toString();
 
-    startButton.style.display = "revert"; // bring back the start button
+    let but = document.getElementById("startB")
+    but.style.display = "revert"; // bring back the start button
 }
 
 function lose(){
-    blank.src = "../../../cards/" + hidden + ".png";
-    stayButton.style.display = "none";
-    hitButton.style.display = "none";
+    blank.src = "../views/cards/" + hidden + ".png";
+    document.getElementById("stay").style.display = "none";
+    document.getElementById("hit").style.display = "none";
     document.getElementById("lost").innerHTML = "You Lose!";
-    pVal.innerHTML = playerTotal.toString();
-    dVal.innerHTML = dealerTotal.toString();
 
-    startButton.style.display = "revert"; // bring back start button
-}
-
-function draw(){
-    blank.src = "../../../cards/" + hidden + ".png";
-    stayButton.style.display = "none";
-    hitButton.style.display = "none";
-    document.getElementById("lost").innerHTML = "Draw!";
-    pVal.innerHTML = playerTotal.toString();
-    dVal.innerHTML = dealerTotal.toString();
-
-    startButton.style.display = "revert"; // bring back start button
+    let but = document.getElementById("startB")
+    but.style.display = "revert"; // bring back start button
 }
 
 function stay(){
-    while (dealerTotal <= playerTotal && dealerTotal < 17){
+    while (dealerTotal <= 17 && dealerTotal < playerTotal){
         let newCard = deck.pop();
         dealerTotal += getVal(newCard);
         let img = document.createElement("img");
-        img.src = "../../../cards/" + newCard + ".png";
+        img.src = "../views/cards/" + newCard + ".png";
     
         document.getElementById("dealerHand").append(img);
     
@@ -123,11 +104,10 @@ function stay(){
 
     if (dealerTotal > 21){ win(); return; }
 
+
     if (playerTotal > dealerTotal){
         win();
-    }else if(dealerTotal == playerTotal){
-        draw();
-    }else{
+    } else{
         lose();
     }
 }
@@ -139,7 +119,6 @@ function hit(){
     img.src = "../../../cards/" + newCard + ".png";
 
     document.getElementById("playerHand").append(img);
-    pVal.innerHTML = playerTotal.toString();
 
     if(playerTotal > 21){
         lose();
@@ -160,13 +139,14 @@ function restart(){
 
     playerTotal = 0;
     dealerTotal = 0;
-    startButton.style.display = "none";
-    stayButton.style.display = "revert";
-    hitButton.style.display = "revert";
+    let but = document.getElementById("startB")
+    but.style.display = "none";
+    document.getElementById("stay").style.display = "revert";
+    document.getElementById("hit").style.display = "revert";
     document.getElementById("lost").innerHTML = " ";
 
     start();
-}   
+}
 
 function getVal(x){
     let data = x.split("-"); // "2-C" == ["4", "C"]
@@ -174,12 +154,7 @@ function getVal(x){
 
     if(isNaN(val)){
         if (val == "A"){
-            if (round == 0){
-                round = 1;
-                return 11;
-            } else if (round == 1){
-                return 1;
-            }
+            return 11;
         }
         return 10;
     }

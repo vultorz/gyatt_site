@@ -1,20 +1,31 @@
 package main
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"log"
 
-//import fmt
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/template/html/v2"
+)
 
 func main() {
-	// fiber app
-	app := fiber.New()
+	// Initialize standard Go html template engine
+	engine := html.New("./views", ".html")
+	// If you want other engine, just replace with following
+	// Create a new engine with django
+	// engine := django.New("./views", ".django")
 
-	//configuring app
-	app.Static("/", "./public")
-
-	// routes
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
+	app := fiber.New(fiber.Config{
+		Views: engine,
 	})
-	//starter
-	app.Listen(":3000")
+
+	//config app
+
+	app.Get("/", func(c *fiber.Ctx) error {
+		// Render index template
+		return c.Render("index", fiber.Map{
+			"Name": "Yhwach Solos",
+		})
+	})
+
+	log.Fatal(app.Listen(":3000"))
 }
