@@ -40,8 +40,8 @@ function start(){ // using deck.pop to delete last element of array when shuffle
     let dealerCard = deck.pop();
     blank = document.createElement("img");
 
-    blank.src = "../../../Images/card back red.png";
-    dealerImg.src = "../../../cards/" + dealerCard + ".png";
+    blank.src = "../views/Images/card back red.png";
+    dealerImg.src = "../views/cards/" + dealerCard + ".png";
 
     dealerTotal += getVal(dealerCard) + getVal(hidden);
 
@@ -51,7 +51,7 @@ function start(){ // using deck.pop to delete last element of array when shuffle
         let img = document.createElement("img");
         let card = deck.pop();
 
-        img.src = "../../../cards/" + card + ".png";
+        img.src = "../views/cards/" + card + ".png";
         playerTotal += getVal(card);
         document.getElementById("playerHand").append(img);
     }
@@ -67,7 +67,7 @@ function start(){ // using deck.pop to delete last element of array when shuffle
 }
 
 function win(){
-    blank.src = "../../../cards/" + hidden + ".png";
+    blank.src = "../views/cards/" + hidden + ".png";
     document.getElementById("stay").style.display = "none";
     document.getElementById("hit").style.display = "none";
     document.getElementById("lost").innerHTML = "You Win!";
@@ -77,7 +77,7 @@ function win(){
 }
 
 function lose(){
-    blank.src = "../../../cards/" + hidden + ".png";
+    blank.src = "../views/cards/" + hidden + ".png";
     document.getElementById("stay").style.display = "none";
     document.getElementById("hit").style.display = "none";
     document.getElementById("lost").innerHTML = "You Lose!";
@@ -91,7 +91,7 @@ function stay(){
         let newCard = deck.pop();
         dealerTotal += getVal(newCard);
         let img = document.createElement("img");
-        img.src = "../../../cards/" + newCard + ".png";
+        img.src = "../views/cards/" + newCard + ".png";
     
         document.getElementById("dealerHand").append(img);
     
