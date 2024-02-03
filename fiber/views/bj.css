@@ -1,5 +1,5 @@
 body {
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-align: center;
     background-image: url("Images/bg_bj.png");
     color:white;
@@ -15,4 +15,11 @@ body {
     height: 200px;
     width: 140px;
     margin: 5px;
+}
+
+button {
+    background-image: url("../views/Images/b_bg1.png");
+    background-size: "cover";
+    height: 50px;
+    width: 125px;
 }
