@@ -2,11 +2,14 @@
 var playerTotal = 0;
 var dealerTotal = 0;
 var gameOver = 0;
+var round = 0;
 
 window.onload=function(){ // wait for webpage to load; setup all button click events
-    const hitButton = document.getElementById("hit");
-    const startButton = document.getElementById("startB");
-    const stayButton = document.getElementById("stay");
+    hitButton = document.getElementById("hit");
+    startButton = document.getElementById("startB");
+    stayButton = document.getElementById("stay");
+    pVal = document.getElementById("pVal");
+    dVal = document.getElementById("dVal");
 
     document.getElementById("hit").style.display = "none";
     document.getElementById("stay").style.display = "none";
@@ -55,7 +58,10 @@ function start(){ // using deck.pop to delete last element of array when shuffle
         playerTotal += getVal(card);
         document.getElementById("playerHand").append(img);
     }
-
+    
+    dVal.innerHTML = (dealerTotal - getVal(hidden)).toString();
+    pVal.innerHTML = playerTotal.toString();
+    
     if(playerTotal == 21){
         win();
         return;
@@ -63,31 +69,44 @@ function start(){ // using deck.pop to delete last element of array when shuffle
         lose();
     }
 
-    console.log(playerTotal);
+    round = 1;
 }
 
 function win(){
     blank.src = "../../../cards/" + hidden + ".png";
-    document.getElementById("stay").style.display = "none";
-    document.getElementById("hit").style.display = "none";
+    stayButton.style.display = "none";
+    hitButton.style.display = "none";
     document.getElementById("lost").innerHTML = "You Win!";
+    pVal.innerHTML = playerTotal.toString();
+    dVal.innerHTML = dealerTotal.toString();
 
-    let but = document.getElementById("startB")
-    but.style.display = "revert"; // bring back the start button
+    startButton.style.display = "revert"; // bring back the start button
 }
 
 function lose(){
     blank.src = "../../../cards/" + hidden + ".png";
-    document.getElementById("stay").style.display = "none";
-    document.getElementById("hit").style.display = "none";
+    stayButton.style.display = "none";
+    hitButton.style.display = "none";
     document.getElementById("lost").innerHTML = "You Lose!";
+    pVal.innerHTML = playerTotal.toString();
+    dVal.innerHTML = dealerTotal.toString();
 
-    let but = document.getElementById("startB")
-    but.style.display = "revert"; // bring back start button
+    startButton.style.display = "revert"; // bring back start button
+}
+
+function draw(){
+    blank.src = "../../../cards/" + hidden + ".png";
+    stayButton.style.display = "none";
+    hitButton.style.display = "none";
+    document.getElementById("lost").innerHTML = "Draw!";
+    pVal.innerHTML = playerTotal.toString();
+    dVal.innerHTML = dealerTotal.toString();
+
+    startButton.style.display = "revert"; // bring back start button
 }
 
 function stay(){
-    while (dealerTotal <= 17 && dealerTotal < playerTotal){
+    while (dealerTotal <= playerTotal && dealerTotal < 17){
         let newCard = deck.pop();
         dealerTotal += getVal(newCard);
         let img = document.createElement("img");
@@ -104,10 +123,11 @@ function stay(){
 
     if (dealerTotal > 21){ win(); return; }
 
-
     if (playerTotal > dealerTotal){
         win();
-    } else{
+    }else if(dealerTotal == playerTotal){
+        draw();
+    }else{
         lose();
     }
 }
@@ -119,6 +139,7 @@ function hit(){
     img.src = "../../../cards/" + newCard + ".png";
 
     document.getElementById("playerHand").append(img);
+    pVal.innerHTML = playerTotal.toString();
 
     if(playerTotal > 21){
         lose();
@@ -139,14 +160,13 @@ function restart(){
 
     playerTotal = 0;
     dealerTotal = 0;
-    let but = document.getElementById("startB")
-    but.style.display = "none";
-    document.getElementById("stay").style.display = "revert";
-    document.getElementById("hit").style.display = "revert";
+    startButton.style.display = "none";
+    stayButton.style.display = "revert";
+    hitButton.style.display = "revert";
     document.getElementById("lost").innerHTML = " ";
 
     start();
-}
+}   
 
 function getVal(x){
     let data = x.split("-"); // "2-C" == ["4", "C"]
@@ -154,7 +174,12 @@ function getVal(x){
 
     if(isNaN(val)){
         if (val == "A"){
-            return 11;
+            if (round == 0){
+                round = 1;
+                return 11;
+            } else if (round == 1){
+                return 1;
+            }
         }
         return 10;
     }
