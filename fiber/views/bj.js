@@ -43,8 +43,8 @@ function start(){ // using deck.pop to delete last element of array when shuffle
     let dealerCard = deck.pop();
     blank = document.createElement("img");
 
-    blank.src = "../views/Images/card back red.png";
-    dealerImg.src = "../views/cards/" + dealerCard + ".png";
+    blank.src = "Images/card back red.png";
+    dealerImg.src = "cards/" + dealerCard + ".png";
 
     dealerTotal += getVal(dealerCard) + getVal(hidden);
 
@@ -54,7 +54,7 @@ function start(){ // using deck.pop to delete last element of array when shuffle
         let img = document.createElement("img");
         let card = deck.pop();
 
-        img.src = "../views/cards/" + card + ".png";
+        img.src = "cards/" + card + ".png";
         playerTotal += getVal(card);
         document.getElementById("playerHand").append(img);
     }
@@ -73,7 +73,7 @@ function start(){ // using deck.pop to delete last element of array when shuffle
 }
 
 function win(){
-    blank.src = "../views/cards/" + hidden + ".png";
+    blank.src = "cards/" + hidden + ".png";
     stayButton.style.display = "none";
     hitButton.style.display = "none";
     document.getElementById("lost").innerHTML = "You Win!";
@@ -84,7 +84,7 @@ function win(){
 }
 
 function lose(){
-    blank.src = "../views/cards/" + hidden + ".png";
+    blank.src = "cards/" + hidden + ".png";
     stayButton.style.display = "none";
     hitButton.style.display = "none";
     document.getElementById("lost").innerHTML = "You Lose!";
@@ -95,7 +95,7 @@ function lose(){
 }
 
 function draw(){
-    blank.src = "../views/cards/" + hidden + ".png";
+    blank.src = "cards/" + hidden + ".png";
     stayButton.style.display = "none";
     hitButton.style.display = "none";
     document.getElementById("lost").innerHTML = "Draw!";
@@ -106,11 +106,11 @@ function draw(){
 }
 
 function stay(){
-    while (dealerTotal <= playerTotal && dealerTotal < 17){
+    while (dealerTotal < 17){
         let newCard = deck.pop();
         dealerTotal += getVal(newCard);
         let img = document.createElement("img");
-        img.src = "../views/cards/" + newCard + ".png";
+        img.src = "cards/" + newCard + ".png";
     
         document.getElementById("dealerHand").append(img);
     
@@ -136,7 +136,7 @@ function hit(){
     let newCard = deck.pop();
     playerTotal += getVal(newCard);
     let img = document.createElement("img");
-    img.src = "../views/cards/" + newCard + ".png";
+    img.src = "cards/" + newCard + ".png";
 
     document.getElementById("playerHand").append(img);
     pVal.innerHTML = playerTotal.toString();
